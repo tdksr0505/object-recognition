@@ -200,13 +200,7 @@ def capture_image():
         cv2.imwrite("capture_image.jpg", merged)
         cv2.imwrite("/home/pi/work/past_img/" + current_time + "after.jpg", merged)
 
-def string_to_array(str):
-    str = str.strip('{}names:\"')
-    str = str.strip("[ ]");
-    str = str.replace("\"", "");
-    str = str.replace(" ", "");
-    name_list = str.split(',')
-    return name_list
+
 def show_image():
     global expression, is_recognizing, is_speaking
     progress = 0
