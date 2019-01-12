@@ -201,32 +201,6 @@ def capture_image():
         cv2.imwrite("/home/pi/work/past_img/" + current_time + "after.jpg", merged)
 
 
-def show_image():
-    global expression, is_recognizing, is_speaking
-    progress = 0
-    while True:
-        if is_recognizing is True:
-            if progress <= 99:
-                DATA_DIR = "/home/pi/work/progress_bar/"
-                filename = DATA_DIR + 'progressBar_' + str(progress) +'.jpg'
-                progress = progress + 10
-            else :
-                filename = '/home/pi/work/progress_bar/progressBar_99.jpg'
-
-        elif is_recognizing is False:
-            if progress != 0:
-                filename = '/home/pi/work/progress_bar/progressBar_100.jpg'
-                progress = 0
-            else:
-
-                filename = '/home/pi/work/pic/clerk_800_480.jpg'
-        else:
-            filename = '/home/pi/work/pic/subtitle.jpg'
-
-        img = cv2.imread(filename)
-        cv2.imshow("Image", img)
-        cv2.moveWindow('Image', 0,0)
-        cv2.waitKey (500)
 def talk_loop():
     global x
     x=0
