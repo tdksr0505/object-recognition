@@ -34,7 +34,7 @@ def init_loading():
     with tf.gfile.FastGFile("/home/pi/work/src/object_graph.pb", 'rb') as f:
         graph_def = tf.GraphDef()   
         graph_def.ParseFromString(f.read())     
-        _ = tf.import_graph_def(graph_def, name='') 
+        tf.import_graph_def(graph_def, name='') 
     
 
 def recognize_image():
