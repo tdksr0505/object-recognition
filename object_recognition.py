@@ -11,14 +11,8 @@ from gtts import gTTS
 import picamera
 from picamera.array import PiRGBArray
 import random
-import json
-import socket
-import pygame
 import os
 import cv2
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
