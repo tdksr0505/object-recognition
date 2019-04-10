@@ -70,10 +70,8 @@ def recognize_image():
         return results
 
 def bot_reply(robot_reply):
-    global x, lock, is_speaking
+    global x
     save_subtitle(robot_reply)
-    is_speaking = True
-    lock.acquire()
     if x== 0 :
         sound_path = 'sound0.mp3'
         x=1
@@ -90,11 +88,9 @@ def bot_reply(robot_reply):
         pass
     mixer.music.stop()
     print('播放結束')
-    lock.release()
-    is_speaking = False
 
 def user_speak():
-    global nobody_count, is_time_couting
+    global nobody_count
     user_request=''
     print"user: ",
     r = speech_recognition.Recognizer()
@@ -118,7 +114,6 @@ def user_speak():
             nobody_count = nobody_count + 1
 
     print(user_request)
-    is_time_couting = False
     return user_request
 
 def analysis_sentence(user_request):
@@ -191,13 +186,11 @@ def capture_image():
 def talk_loop():
     global x
     x=0
-    global nobody_count, is_recognizing, is_time_couting
-    is_recognizing = False
+    global nobody_count
     nobody_count=0
     while nobody_count<3:
         # print 'nobody_count', nobody_count
         print("請講話...")
-        is_time_couting = True
         user_request = user_speak()
         # user_request = raw_input()
         if(user_request == 'quit'):
@@ -209,11 +202,9 @@ def talk_loop():
 
         if user_request.find("r")>=0 or user_request.find("這是什麼")>=0 or user_request.find("什麼功能")>=0:
             capture_image()
-            is_recognizing = True
             threading.Thread(target = bot_reply, args = ("辨識中，請稍後",)).start()
             
             recognize_object = recognize_image()
-            is_recognizing = False
             
             if recognize_object == 'nothing':
                 bot_reply("抱歉，我不知道這是什麼")
@@ -224,8 +215,6 @@ def talk_loop():
             robot_reply = analysis_sentence(user_request)
             bot_reply(robot_reply)
     print 'talk_loop end'
-    nobody = True
-    can_send_start = True
 
 
 def introduction_speak(recognize_object):
@@ -248,11 +237,6 @@ def command():
     
 if __name__ == "__main__":
     init_loading()
-    global expression, lock, nobody, is_recognizing, is_speaking
-    can_send_start = False
-    nobody = True
-    is_recognizing = False
-    is_speaking = False
 
     db = MySQLdb.connect("127.0.0.1", "root", "0", "ch", 3306, charset='utf8')
     cursor = db.cursor()
